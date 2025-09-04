@@ -29,7 +29,7 @@ class _NoteItemState extends State<NoteItem> {
         onDraggableCanceled: (velocity, offset) {
           setState(() {
             // Position der Notiz an die neue Stelle anpassen
-            note.position = offset;
+            note.position = Offset(offset.dx, offset.dy - 55);
           });
         },
         child: noteCard(note),
