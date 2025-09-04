@@ -13,3 +13,8 @@ class PicturesNotifier extends StateNotifier<List<PictureElement>> {
     state = state.where((p) => p.id != pictureId).toList();
   }
 }
+
+final picturesProvider =
+    StateNotifierProvider<PicturesNotifier, List<PictureElement>>(
+      (ref) => PicturesNotifier(),
+    );
