@@ -28,6 +28,7 @@ class PictureCard extends ConsumerWidget {
           child: Stack(
             children: [
               Image.network(
+                // 'https://picsum.photos/200/300.jpg',
                 'https://picsum.photos/seed/${picture.id}/200/300.jpg',
                 fit: BoxFit.cover,
                 height: 300,

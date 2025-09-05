@@ -23,6 +23,7 @@ class PictureDetail extends ConsumerWidget {
             ),
             child: Image.network(
               'https://picsum.photos/seed/${picture.id}/400/600.jpg',
+              // 'https://picsum.photos/400/600.jpg',
               fit: BoxFit.cover,
               height: 600,
               width: 400,

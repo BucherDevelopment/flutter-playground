@@ -33,3 +33,8 @@ final picturesProvider =
     StateNotifierProvider<PicturesNotifier, List<PictureElement>>(
       (ref) => PicturesNotifier(),
     );
+
+final favoritePicturesProvider = Provider<List<PictureElement>>((ref) {
+  final pictures = ref.watch(picturesProvider);
+  return pictures.where((p) => p.isFavorite).toList();
+});
