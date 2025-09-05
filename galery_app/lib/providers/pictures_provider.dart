@@ -9,6 +9,21 @@ class PicturesNotifier extends StateNotifier<List<PictureElement>> {
     state = [...state, picture];
   }
 
+  void toggleFavorite(String pictureId) {
+    state = state
+        .map(
+          (p) => p.id == pictureId
+              ? PictureElement(
+                  id: p.id,
+                  title: p.title,
+                  description: p.description,
+                  isFavorite: !p.isFavorite,
+                )
+              : p,
+        )
+        .toList();
+  }
+
   void removePicture(String pictureId) {
     state = state.where((p) => p.id != pictureId).toList();
   }
