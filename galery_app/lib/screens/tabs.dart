@@ -3,6 +3,7 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:galery_app/models/picture_element.dart';
 import 'package:galery_app/providers/pictures_provider.dart';
 import 'package:galery_app/screens/galery_overview.dart';
+import 'package:galery_app/widgets/new_picture_dialog.dart';
 
 class TabsScreen extends ConsumerStatefulWidget {
   const TabsScreen({super.key});
@@ -18,6 +19,13 @@ class _TabsScreenState extends ConsumerState<TabsScreen> {
     setState(() {
       _selectedPageIndex = index;
     });
+  }
+
+  void _openNewPictureScreen() {
+    showDialog(
+      context: context,
+      builder: (context) => Dialog(child: NewPictureDialog()),
+    );
   }
 
   void _addPicture() {
@@ -51,7 +59,7 @@ class _TabsScreenState extends ConsumerState<TabsScreen> {
         ],
       ),
       floatingActionButton: FloatingActionButton(
-        onPressed: _addPicture,
+        onPressed: _openNewPictureScreen,
         child: const Icon(Icons.add),
       ),
     );
