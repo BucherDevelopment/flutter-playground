@@ -16,6 +16,7 @@ class PicturesNotifier extends StateNotifier<List<PictureElement>> {
               ? PictureElement(
                   id: p.id,
                   title: p.title,
+                  randomSeed: p.randomSeed,
                   description: p.description,
                   isFavorite: !p.isFavorite,
                 )

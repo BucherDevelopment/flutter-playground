@@ -1,14 +1,16 @@
 import 'package:flutter/material.dart';
-import 'package:flutter/widgets.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:galery_app/models/picture_element.dart';
+import 'package:galery_app/providers/pictures_provider.dart';
 
-class NewPictureDialog extends StatefulWidget {
+class NewPictureDialog extends ConsumerStatefulWidget {
   const NewPictureDialog({super.key});
 
   @override
-  State<NewPictureDialog> createState() => _NewPictureDialogState();
+  ConsumerState<NewPictureDialog> createState() => _NewPictureDialogState();
 }
 
-class _NewPictureDialogState extends State<NewPictureDialog> {
+class _NewPictureDialogState extends ConsumerState<NewPictureDialog> {
   final _formKey = GlobalKey<FormState>();
   String randomSeed = DateTime.now().millisecondsSinceEpoch.toString();
   String? _enteredTitle;
@@ -34,6 +36,13 @@ class _NewPictureDialogState extends State<NewPictureDialog> {
     _formKey.currentState?.save();
     print('Title: $_enteredTitle');
     print('Description: $_enteredDescription');
+    final newPicture = PictureElement(
+      id: DateTime.now().millisecondsSinceEpoch.toString(),
+      title: _enteredTitle!,
+      description: _enteredDescription,
+      randomSeed: randomSeed,
+    );
+    ref.read(picturesProvider.notifier).addPicture(newPicture);
   }
 
   @override
@@ -89,11 +98,17 @@ class _NewPictureDialogState extends State<NewPictureDialog> {
                 }
                 return null;
               },
+              onSaved: (newValue) {
+                _enteredTitle = newValue;
+              },
             ),
             SizedBox(height: 16),
             TextFormField(
               decoration: InputDecoration(labelText: 'Description'),
               maxLines: 3,
+              onSaved: (newValue) {
+                _enteredDescription = newValue;
+              },
             ),
 
             Expanded(

@@ -22,7 +22,7 @@ class PictureDetail extends ConsumerWidget {
               topRight: Radius.circular(24),
             ),
             child: Image.network(
-              'https://picsum.photos/seed/${picture.id}/400/600.jpg',
+              'https://picsum.photos/seed/${picture.randomSeed}/400/600.jpg',
               // 'https://picsum.photos/400/600.jpg',
               fit: BoxFit.cover,
               height: 600,
@@ -59,6 +59,18 @@ class PictureDetail extends ConsumerWidget {
                     size: 32,
                     picture.isFavorite ? Icons.star : Icons.star_border,
                   ),
+                ),
+                IconButton(
+                  onPressed: () {
+                    // ref.read(picturesProvider.notifier).deletePicture(picture.id);
+                  },
+                  icon: Icon(size: 32, Icons.delete),
+                ),
+                IconButton(
+                  onPressed: () {
+                    // ref.read(picturesProvider.notifier).editPicture(picture.id);
+                  },
+                  icon: Icon(size: 32, Icons.edit),
                 ),
               ],
             ),
