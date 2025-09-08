@@ -28,6 +28,12 @@ class PicturesNotifier extends StateNotifier<List<PictureElement>> {
   void removePicture(String pictureId) {
     state = state.where((p) => p.id != pictureId).toList();
   }
+
+  void editPicture(PictureElement updatedPicture) {
+    state = state
+        .map((p) => p.id == updatedPicture.id ? updatedPicture : p)
+        .toList();
+  }
 }
 
 final picturesProvider =

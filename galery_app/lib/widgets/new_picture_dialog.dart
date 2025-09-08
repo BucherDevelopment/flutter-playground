@@ -4,7 +4,8 @@ import 'package:galery_app/models/picture_element.dart';
 import 'package:galery_app/providers/pictures_provider.dart';
 
 class NewPictureDialog extends ConsumerStatefulWidget {
-  const NewPictureDialog({super.key});
+  final PictureElement? initialPicture;
+  const NewPictureDialog({super.key, this.initialPicture});
 
   @override
   ConsumerState<NewPictureDialog> createState() => _NewPictureDialogState();
@@ -12,9 +13,30 @@ class NewPictureDialog extends ConsumerStatefulWidget {
 
 class _NewPictureDialogState extends ConsumerState<NewPictureDialog> {
   final _formKey = GlobalKey<FormState>();
+  late final TextEditingController _titleController;
+  late final TextEditingController _descController;
   String randomSeed = DateTime.now().millisecondsSinceEpoch.toString();
-  String? _enteredTitle;
-  String? _enteredDescription;
+
+  @override
+  void initState() {
+    super.initState();
+    _titleController = TextEditingController(
+      text: widget.initialPicture?.title ?? '',
+    );
+    _descController = TextEditingController(
+      text: widget.initialPicture?.description ?? '',
+    );
+    randomSeed =
+        widget.initialPicture?.randomSeed ??
+        DateTime.now().millisecondsSinceEpoch.toString();
+  }
+
+  @override
+  void dispose() {
+    _titleController.dispose();
+    _descController.dispose();
+    super.dispose();
+  }
 
   static final submitButtonStyle = ElevatedButton.styleFrom(
     backgroundColor: Colors.deepPurple,
@@ -34,15 +56,22 @@ class _NewPictureDialogState extends ConsumerState<NewPictureDialog> {
       return;
     }
     _formKey.currentState?.save();
-    print('Title: $_enteredTitle');
-    print('Description: $_enteredDescription');
+
     final newPicture = PictureElement(
-      id: DateTime.now().millisecondsSinceEpoch.toString(),
-      title: _enteredTitle!,
-      description: _enteredDescription,
+      id:
+          widget.initialPicture?.id ??
+          DateTime.now().millisecondsSinceEpoch.toString(),
+      title: _titleController.text,
+      description: _descController.text,
       randomSeed: randomSeed,
+      isFavorite: widget.initialPicture?.isFavorite ?? false,
     );
-    ref.read(picturesProvider.notifier).addPicture(newPicture);
+    if (widget.initialPicture == null) {
+      ref.read(picturesProvider.notifier).addPicture(newPicture);
+    } else {
+      ref.read(picturesProvider.notifier).editPicture(newPicture);
+    }
+    Navigator.of(context).pop();
   }
 
   @override
@@ -56,7 +85,7 @@ class _NewPictureDialogState extends ConsumerState<NewPictureDialog> {
         child: Column(
           children: [
             Text(
-              'New Picture Dialog',
+              widget.initialPicture != null ? 'Bild bearbeiten' : 'Neues Bild',
               style: Theme.of(context).textTheme.headlineMedium,
             ),
 
@@ -91,6 +120,7 @@ class _NewPictureDialogState extends ConsumerState<NewPictureDialog> {
             ),
             SizedBox(height: 16),
             TextFormField(
+              controller: _titleController,
               decoration: InputDecoration(labelText: 'Title'),
               validator: (value) {
                 if (value == null || value.trim().isEmpty) {
@@ -98,17 +128,12 @@ class _NewPictureDialogState extends ConsumerState<NewPictureDialog> {
                 }
                 return null;
               },
-              onSaved: (newValue) {
-                _enteredTitle = newValue;
-              },
             ),
             SizedBox(height: 16),
             TextFormField(
+              controller: _descController,
               decoration: InputDecoration(labelText: 'Description'),
               maxLines: 3,
-              onSaved: (newValue) {
-                _enteredDescription = newValue;
-              },
             ),
 
             Expanded(

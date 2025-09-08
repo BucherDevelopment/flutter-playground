@@ -54,6 +54,7 @@ class PictureCard extends ConsumerWidget {
                         maxLines: 1,
                         overflow: TextOverflow.ellipsis,
                       ),
+
                       IconButton(
                         onPressed: () {
                           ref
