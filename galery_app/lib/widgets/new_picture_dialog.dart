@@ -149,7 +149,11 @@ class _NewPictureDialogState extends ConsumerState<NewPictureDialog> {
                   ElevatedButton(
                     style: submitButtonStyle,
                     onPressed: _saveForm,
-                    child: Text('Add Picture'),
+                    child: Text(
+                      widget.initialPicture == null
+                          ? 'Add Picture'
+                          : 'Edit Picture',
+                    ),
                   ),
                 ],
               ),
