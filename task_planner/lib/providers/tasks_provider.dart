@@ -8,8 +8,8 @@ import 'package:task_planner/models/task.dart';
 class TasksNotifier extends StateNotifier<List<Task>> {
   final FirebaseFirestore _firestore = FirebaseFirestore.instance;
   final FirebaseAuth _auth = FirebaseAuth.instance;
-  final CollectionReference _tasksCollection = FirebaseFirestore.instance
-      .collection('tasks');
+  // final CollectionReference _tasksCollection = FirebaseFirestore.instance
+  //     .collection('tasks');
 
   StreamSubscription<QuerySnapshot>? _tasksSubscription;
 

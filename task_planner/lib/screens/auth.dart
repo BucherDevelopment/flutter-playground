@@ -18,7 +18,6 @@ class _AuthScreenState extends State<AuthScreen> {
   var _enteredEmail = '';
   var _enteredPassword = '';
   var _enteredUsername = '';
-  var _isAuthenticating = false;
 
   void _submit() async {
     final isValid = _formKey.currentState!.validate();
@@ -30,9 +29,7 @@ class _AuthScreenState extends State<AuthScreen> {
     _formKey.currentState!.save();
 
     try {
-      setState(() {
-        _isAuthenticating = true;
-      });
+      setState(() {});
       if (_isLogin) {
         await _firebase.signInWithEmailAndPassword(
           email: _enteredEmail,
@@ -55,9 +52,7 @@ class _AuthScreenState extends State<AuthScreen> {
       ScaffoldMessenger.of(context).showSnackBar(
         SnackBar(content: Text(error.message ?? 'Authentication failed!')),
       );
-      setState(() {
-        _isAuthenticating = false;
-      });
+      setState(() {});
     }
   }
 
