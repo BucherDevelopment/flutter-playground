@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:notes_deluxe/screens/notes_overview.dart';
 
 class MainScreen extends StatefulWidget {
   const MainScreen({super.key});
@@ -12,7 +13,7 @@ class _MainScreenState extends State<MainScreen> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(title: const Text('Notes Deluxe')),
-      body: const Center(child: Text('Welcome to Notes Deluxe!')),
+      body: NotesOverviewScreen(),
     );
   }
 }
